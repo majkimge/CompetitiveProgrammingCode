@@ -1,72 +1,71 @@
 #include <bits/stdc++.h>
-#define lld long long
-#define MAX 100009
-#define pb push_back
 #define mp make_pair
 #define f first
 #define s second
-#define INF 1000000000
-#define MOD 1000696969
+#define pb push_back
+#define MAX 1000000
+#define lld long long
+
 
 using namespace std;
 
-double tab[4];
-vector<complex<double> >vect;
+int tt[MAX];
+vector<complex<double> >tab;
+lld n;
 
-void fft(vector<complex<double> >&x){//cout<<"F";
-    if(x.size()<=1){
-        return;
+void fft(vector<complex<double> > &x){
+    int N=x.size();
+    if(N<=1)return ;
+
+    vector<complex<double> >even;
+    vector<complex<double> >odd;
+    for(int i=0;i<N;++i){
+        if(i%2==0){
+            even.pb(x[i]);
+        }else{
+            odd.pb(x[i]);
+        }
     }
 
-    vector<complex<double> > even;
-    for(int i=0;i<x.size();i+=2){
-        even.pb(x[i]);
-    }
-    vector<complex<double> > odd;
-    for(int i=1;i<x.size();i+=2){
-        odd.pb(x[i]);
-    }
     fft(even);
     fft(odd);
 
-    for(int i=0;i<x.size()/2;++i){
-        complex<double>  t=polar(1.0,M_PI*2/x.size()*i)*odd[i];
+    for(int i=0;i<N/2;++i){
+        complex<double> t=polar(1.0,-2*i*M_PI/N)*odd[i];
         x[i]=even[i]+t;
-        x[i+x.size()/2]=even[i]-t;
+        x[i+N/2]=even[i]-t;
     }
 }
 
-void ifft(vector<complex<double> >&x){
-    for(int i=0;i<x.size();++i){
-        complex<double> temp(real(x[i]),-imag(x[i]));
-        x[i]=temp;
+void ifft(vector<complex<double> > &x){
+    int N=x.size();
+    for(int i=0;i<N;++i){
+        x[i]=conj(x[i]);
     }
     fft(x);
-    for(int i=0;i<x.size();++i){
-        complex<double> temp(real(x[i]),-imag(x[i]));
-        x[i]=temp;
+    for(int i=0;i<N;++i){
+        x[i]=conj(x[i]);
+        x[i]=x[i]/(complex<double>)N;
     }
-    for(int i=0;i<x.size();++i){
-        x[i]/=x.size();
-    }
+
 }
+
+
 
 int main()
 {
-    for(int i=0;i<4;++i){
-        scanf("%lf",&tab[i]);
-
+    scanf("%lld",&n);
+    for(int i=0;i<n;++i){
+        scanf("%d",&tt[i]);
+        tab.pb((double)tt[i]);
     }
-    for(int i=0;i<4;++i){
-        complex<double> temp(tab[i],0.0);
-        vect.pb(temp);//cout<<"F";
-
+    fft(tab);
+    for(int i=0;i<n;++i){
+        cout<<tab[i];
     }
-    fft(vect);
-
-    ifft(vect);
-    for(int i=0;i<4;++i){
-        cout<<real(vect[i])<<" "<<imag(vect[i])<<endl;
+    ifft(tab);
+    for(int i=0;i<n;++i){
+        cout<<tab[i];
     }
     return 0;
 }

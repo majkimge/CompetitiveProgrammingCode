@@ -1,77 +1,54 @@
 #include <bits/stdc++.h>
 #define lld long long
-#define MAX 300009
-#define DOD 100001
 #define pb push_back
 #define mp make_pair
 #define f first
 #define s second
+#define MAX 2000009
+#define INF 1000000009
 
 using namespace std;
 
-lld odw[MAX];
-pair<lld,lld> krawy[200009];
-vector<lld> v[MAX];
-lld partner[MAX];
-lld wsk,wyn=1,n,m,a,b;
+int n,a,b,wyn=0;
+int kt=1;
+int odw[MAX];
+int odw1[MAX];
+vector<int> dodni[MAX];
+//pair<int,int> tab1[MAX];
+int m[MAX];
+
+//vector<int> zapy;
+
+int skoj(int from){
+      // cout<<from;
+
+        //cout<<from;
+        odw[from]=kt;
+        for(int i=0;i<dodni[from].size();++i){
+            if(m[dodni[from][i]]==-1){
+                m[dodni[from][i]]=from;
+                wyn++;
+                return 1;
+            }
+        }
+
+        for(int i=0;i<dodni[from].size();++i){
+            if(!odw1[from]&&odw[m[dodni[from][i]]]<kt&&skoj(m[dodni[from][i]])){
+                m[dodni[from][i]]=from;
+                return 1;
+            }
+        }
 
 
-bool skoj(int x)
-{
-    odw[x]=wsk;
-    for (int i=0; i<(int)v[x].size(); i++)
-    {
-        if(odw[v[x][i]]!=wsk&&partner[v[x][i]]==0)
-        {
-            partner[v[x][i]]=x;
-            partner[x]=v[x][i];
-            return true;
-        }
-    }
-    for (int i=0; i<(int)v[x].size(); i++)
-    {
-        if (odw[partner[v[x][i]]]!=wsk && skoj(partner[v[x][i]]))
-        {
-            partner[v[x][i]]=x;
-            partner[x]=v[x][i];
-            return true;
-        }
-    }
-    return false;
+
+
+    odw1[from]=1;
+    return 0;
+
 }
 
 int main()
 {
-    scanf("%lld%lld",&n,&m);
-    for(int i=0;i<m;++i){
-        scanf("%lld%lld",&a,&b);
-        krawy[i]=mp(a,b);
-        v[a].pb(i+DOD);
-        v[b].pb(i+DOD);
-        v[i+DOD].pb(a);
-        v[i+DOD].pb(b);
-    }
-    for(int i=1;i<=n;++i){
-            wsk++;
-        //cout<<skoj(i);
-        if(skoj(i)==0){
-            wyn=0;
-        }
-
-
-    }
-    if(wyn){
-        printf("TAK\n");
-        for(int i=1;i<=n;++i){
-            if(krawy[partner[i]-DOD].f==i){
-                printf("%lld\n",krawy[partner[i]-DOD].s);
-            }else{
-                printf("%lld\n",krawy[partner[i]-DOD].f);
-            }
-
-        }
-    }else{
-        printf("NIE\n");
-    }
+    cout << "Hello world!" << endl;
     return 0;
 }

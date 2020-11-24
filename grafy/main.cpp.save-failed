@@ -1,0 +1,19 @@
+#include <bits/stdc++.h>
+#define N 1000000
+using namespace std;
+
+vector<int> kraw[N]
+int n, m;
+int w, w1;
+int main()
+{
+    scanf("%i",&n);
+    scanf("%i",&m);
+    for(int i=0;i<m;i++){
+        scanf("%i",&w);
+        scanf("%i",&w1);
+        kraw[w].push_back(w1);
+        kraw[w1].push_back(w);
+    }
+    return 0;
+}
